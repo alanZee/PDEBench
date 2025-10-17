@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import argparse
 from pathlib import Path
 
@@ -75,6 +76,13 @@ def download_data(root_folder, pde_name):
     # Iterate filtered dataframe and download the files
     for _, row in tqdm(pde_df.iterrows(), total=pde_df.shape[0]):
         file_path = Path(root_folder) / row["Path"]
+        if not no_fast_download:
+            try:
+                file_size = os.path.getsize(file_path)
+            except (FileNotFoundError, OSError):
+                file_size = 0
+            if file_size != 0:
+                pass
         download_url(row["URL"], file_path, row["Filename"], md5=row["MD5"])
 
 
@@ -95,6 +103,11 @@ if __name__ == "__main__":
         "--pde_name",
         action="append",
         help="Name of the PDE dataset to download. You can use this flag multiple times to download multiple datasets",
+    )
+    arg_parser.add_argument(
+        "--no_fast_download",
+        action="store_true",
+        help="Disable fast download mode, which skips files that are already downloaded",
     )
 
     args = arg_parser.parse_args()
