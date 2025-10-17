@@ -78,10 +78,11 @@ def download_data(root_folder, pde_name, no_fast_download=False):
         file_path = Path(root_folder) / row["Path"]
         if not no_fast_download:
             try:
-                file_size = os.path.getsize(file_path)
+                file_size = os.path.getsize(file_path / row["Filename"])
             except (FileNotFoundError, OSError):
                 file_size = 0
             if file_size != 0:
+                # print(file_path / row["Filename"], file_size)
                 continue
         download_url(row["URL"], file_path, row["Filename"], md5=row["MD5"])
 
