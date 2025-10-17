@@ -82,7 +82,7 @@ def download_data(root_folder, pde_name, no_fast_download=False):
             except (FileNotFoundError, OSError):
                 file_size = 0
             if file_size != 0:
-                pass
+                continue
         download_url(row["URL"], file_path, row["Filename"], md5=row["MD5"])
 
 
