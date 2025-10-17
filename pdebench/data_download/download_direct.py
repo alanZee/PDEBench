@@ -59,7 +59,7 @@ def parse_metadata(pde_names):
     return meta_df[meta_df["PDE"].isin(pde_names)]
 
 
-def download_data(root_folder, pde_name):
+def download_data(root_folder, pde_name, no_fast_download=False):
     """ "
     Download data splits specific to a given PDE.
 
@@ -112,4 +112,4 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    download_data(args.root_folder, args.pde_name)
+    download_data(args.root_folder, args.pde_name, args.no_fast_download)
